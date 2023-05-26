@@ -15,6 +15,8 @@ const SecondComp = () => {
       dispatch(actions.addBy(10));
     };
 
+    console.log(counter);
+
     return (
         <section>
             <h2>This is the second component</h2>

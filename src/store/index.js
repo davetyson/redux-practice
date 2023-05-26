@@ -1,27 +1,29 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { configureStore, createSlice, combineReducers } from "@reduxjs/toolkit";
 
 const counterSlice = createSlice({
     name: `counter`,
     initialState: { counter: 0 },
     reducers: {
-        increment(state, action) {
-            state.counter++;
+        increment(state) {
+            state.value++;
         },
-        decrement(state,action) {
-            state.counter--;
+        decrement(state) {
+            state.value--;
         },
         addBy(state, action) {
-            state.counter += action.payload;
+            state.value += action.payload;
         }
     }
 });
+
+console.log(counterSlice);
 
 const logInSlice = createSlice({
     name: `loggedIn`,
     initialState: { loggedIn: false },
     reducers: {
-        changeLogInStatus(state) {
-            if (state.loggedIn) {
+        changeLogInStatus(state, actions) {
+            if (actions.payload === true) {
                 state.loggedIn = false;
             } else {
                 state.loggedIn = true;
@@ -34,11 +36,12 @@ export const actions = counterSlice.actions;
 
 export const logInActions = logInSlice.actions;
 
-const store = configureStore({
-    reducer: {
-        counter: counterSlice.reducer,
-        loggedIn: logInSlice.reducer
-    }
-})
+const reducer = combineReducers({
+    counter: counterSlice.reducer,
+    loggedIn: logInSlice.reducer,
+});
+console.log({reducer});
+
+const store = configureStore({reducer});
 
 export default store;
